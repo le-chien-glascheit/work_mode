@@ -5,6 +5,8 @@ from openpyxl.styles import NamedStyle, Font, Alignment, PatternFill, Border, \
     Side
 from xlsxwriter import Workbook
 
+columns = ['id','username','role']
+
 def create_empty_excel(columns: list, filename: str, sheet_name: str = 'Sheet1'):
     df = pd.DataFrame(columns=columns)
 
@@ -18,7 +20,7 @@ def create_empty_excel(columns: list, filename: str, sheet_name: str = 'Sheet1')
 
     return filepath
 
-columns = ['id','username','role']
+
 def create_excel_from_dict_list(dict_list: list, output_filename: str, sheet_name='Sheet1'):
     # Создаем директорию, если она не существует
     if not os.path.exists('excel_files'):
@@ -80,4 +82,7 @@ def create_excel_from_dict_list(dict_list: list, output_filename: str, sheet_nam
     wb.save(filepath)
     return filepath
 
-create_empty_excel(columns=columns, filename='ex-1')
+# create_empty_excel(columns=columns, filename='ex-1')
+
+data = pd.read_excel('C:/Users/LapinVMi/PycharmProjects/hakaton/hakaton/work_mode/excel_files/data.xlsx')
+print(data)
