@@ -119,8 +119,6 @@ MONTH_NAME = [
     'октябрь', 'ноябрь', 'декабрь',
 ]
 # Получаем текущий год и месяц
-year = 2024
-
 
 # Получаем календарь для заданного месяца
 def count_weekend_days(year, month):
@@ -160,53 +158,84 @@ def work_rotation(employees:list):
 
         con = sorted(consultants, key=lambda x: x['priority'])
 
+
         for i in range(count):
             dev = min(developers, key=lambda x: x['priority'])
             ind = developers.index(dev)
 
-
-            print(str(weekend_days[i]))
-
+            work_days = []
+            work_day = str(weekend_days[i])
+            work_days.append(work_day)
+            #print(work_day)
             if (i + 2) ==len(con):
 
-                print(con[-2]['id'],con[-2]['name'],con[-2]['priority'])
-                print(con[-1]['id'],con[-1]['name'],con[-1]['priority'])
-                print(f"{dev['name']=}")
+                # print(con[-2]['id'],con[-2]['name'],con[-2]['priority'])
+                # print(con[-1]['id'],con[-1]['name'],con[-1]['priority'])
+                # print(f"{dev['name']=}")
+                work_days.extend(
+                    [dev['name'], con[-2]['name'], con[-1]['name']])
                 con[-2]['priority'] += 1
                 con[-1]['priority'] += 1
                 dev['priority'] += 1
 
             elif len(con[i % len(con): (i + 2) % len(con)]) > 1:
+                work_days.extend([dev['name']])
                 for j in con[i % len(con): (i + 2) % len(con)]:
                     print(j['id'],j['name'], j['priority'])
+                    work_days.extend([j['name']])
                     j['priority'] += 1
-                print(f"{dev['name']=}")
+                # print(f"{dev['name']=}")
                 dev['priority'] += 1
+
             elif (i + 1)  == len(con):
-                print(con[-1]['id'],con[-1]['name'],con[-1]['priority'])
-                print(con[0]['id'],con[0]['name'],con[0]['priority'])
-                print(f"{dev['name']=}")
+                # print(con[-1]['id'],con[-1]['name'],con[-1]['priority'])
+                # print(con[0]['id'],con[0]['name'],con[0]['priority'])
+                # print(f"{dev['name']=}")
                 con[-1]['priority'] += 1
                 con[0]['priority'] += 1
                 dev['priority'] += 1
+                work_days.extend([dev['name'],con[-1]['name'],con[0]['name']])
+
             elif len(con[i % len(con): (i + 2) % len(con)]) == 0:
+                work_days.extend([dev['name']])
                 for j in con[(i + 2) % len(con): (i - 1) % len(con)]:
                     print(j['id'],j['name'], j['priority'])
+                    work_days.extend([j['name']])
                     j['priority'] += 1
-                print(f"{dev['name']=}")
+                # print(f"{dev['name']=}")
                 dev['priority'] += 1
 
             developers[ind]['priority'] = dev['priority']
             print('-' * 5)
 
-
-        weekend_team.extend(con)
-        weekend_team.append(dev)
+            print(work_days)
+            weekend_team.append(work_days)
 
         consultants = sorted(con, key=lambda x: x['priority'])
 
         print('end month')
         print('-' * 5)
 
+
+    print(weekend_team)
+    pd.DataFrame(weekend_team).to_excel('ex-3.xlsx', index=False)
+
+from openpyxl import Workbook
+
+def create_excel_table(data_list, excel_file_name):
+    # Создаем новую книгу Excel
+    wb = Workbook()
+    sheet = wb.active
+
+    # Перебираем элементы списка и добавляем их в таблицу
+    for row_idx, row_data in enumerate(data_list, start=1):
+        for col_idx, cell_data in enumerate(row_data, start=1):
+            sheet.cell(row=row_idx, column=col_idx, value=cell_data)
+
+    # Сохраняем книгу Excel с указанным именем
+    wb.save(excel_file_name)
+
+
 if __name__ == '__main__':
     work_rotation(employees=EMPLOYEES)
+

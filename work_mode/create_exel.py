@@ -94,13 +94,15 @@ month_name= [
     'июль', 'август', 'сентябрь',
     'октябрь','ноябрь','декабрь',
 ]
-df = pd.DataFrame(data)
+create_excel_from_dict_list(month_name, 'ex-2')
 
-for i in range(12):
-    for j in range(len(df[i+1])):
-        if str(df[i+1][j]).strip() == 'NaT':
-            df[i+1].pop(j)
-
-for i in range(12):
-    print(month_name[i])
-    print(df[i+1])
+# df = pd.DataFrame(data)
+#
+# for i in range(12):
+#     for j in range(len(df[i+1])):
+#         if str(df[i+1][j]).strip() == 'NaT':
+#             df[i+1].pop(j)
+#
+# for i in range(12):
+#     print(month_name[i])
+#     print(df[i+1])
