@@ -1,3 +1,34 @@
+
+import random
+
+# список сотрудников
+employees = {
+    'Alice': 0,
+    'Bob': 0,
+    'Charlie': 0,
+    'David': 0,
+    'Eve': 0
+}
+
+# инициализируем список выходных дней
+weekend_days = ['Saturday', 'Sunday']
+
+# функция для выбора минимального значения приоритета
+def min_priority(employees):
+    min_priority = min(employees.values())
+    min_employees = [k for k, v in employees.iteritems() if v == min_priority]
+    return random.choice(min_employees)
+
+# цикл по выходным дням в месяце
+for day in range(1, 31):
+    if day % 7 == 1 or day % 7 == 2:  # проверяем, что день - выходной
+        employee = min_priority(employees)
+        print(f"On day {day} {weekend_days[(day-1) % 2]}, {employee} is working.")
+        employees[employee] += 1  # увеличиваем приоритет работника
+
+
+
+
 import random
 
 class Employee:
