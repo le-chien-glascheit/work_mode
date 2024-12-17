@@ -1,10 +1,8 @@
 import calendar
-import os
-from openpyxl.styles import NamedStyle, Font, Alignment, PatternFill, Border, \
-    Side
-from xlsxwriter import Workbook
 
-employees = [
+import pandas as pd
+
+EMPLOYEES = [
     {'id': 8960,
      'name': "Alice",
      'role': "developer",
@@ -114,7 +112,12 @@ employees = [
      },
 ]
 
-
+MONTH_NAME = [
+    'январь', 'февраль', 'март',
+    'апрель', 'май', 'июнь',
+    'июль', 'август', 'сентябрь',
+    'октябрь', 'ноябрь', 'декабрь',
+]
 # Получаем текущий год и месяц
 year = 2024
 
@@ -129,28 +132,45 @@ def count_weekend_days(year, month):
                 count += 1
     return count
 
-def work_rotation( employees:list):
-    # weekend_days: list,
+def work_rotation(employees:list):
     weekend_team = []
 
     developers = [employee for employee in employees if
                   employee['role'] == "developer"]
     consultants = [employee for employee in employees if
                    employee['role'] == "consultant"]
+
+    data = pd.read_excel(
+        'C:/Users/LapinVMi/PycharmProjects/hakaton/hakaton/work_mode/excel_files/prazdnik.xlsx')
+
+
+    df = pd.DataFrame(data)
+
+    for i in range(12):
+        for j in range(len(df[i + 1])):
+            if str(df[i + 1][j]).strip() == 'NaT':
+                df[i + 1].pop(j)
+
     for month in range(12):
 
-        weekend_days = count_weekend_days(year, month + 1)
+        weekend_days = df[month+1]
+        count = len(weekend_days)
 
+        print(MONTH_NAME[month])
 
         con = sorted(consultants, key=lambda x: x['priority'])
 
-        for i in range(weekend_days):
+        for i in range(count):
             dev = min(developers, key=lambda x: x['priority'])
             ind = developers.index(dev)
 
+
+            print(str(weekend_days[i]))
+
             if (i + 2) ==len(con):
-                print(con[-2]['name'],con[-2]['priority'])
-                print(con[-1]['name'],con[-1]['priority'])
+
+                print(con[-2]['id'],con[-2]['name'],con[-2]['priority'])
+                print(con[-1]['id'],con[-1]['name'],con[-1]['priority'])
                 print(f"{dev['name']=}")
                 con[-2]['priority'] += 1
                 con[-1]['priority'] += 1
@@ -158,20 +178,20 @@ def work_rotation( employees:list):
 
             elif len(con[i % len(con): (i + 2) % len(con)]) > 1:
                 for j in con[i % len(con): (i + 2) % len(con)]:
-                    print(j['name'], j['priority'])
+                    print(j['id'],j['name'], j['priority'])
                     j['priority'] += 1
                 print(f"{dev['name']=}")
                 dev['priority'] += 1
             elif (i + 1)  == len(con):
-                print(con[-1]['name'],con[-1]['priority'])
-                print(con[0]['name'],con[0]['priority'])
+                print(con[-1]['id'],con[-1]['name'],con[-1]['priority'])
+                print(con[0]['id'],con[0]['name'],con[0]['priority'])
                 print(f"{dev['name']=}")
                 con[-1]['priority'] += 1
                 con[0]['priority'] += 1
                 dev['priority'] += 1
             elif len(con[i % len(con): (i + 2) % len(con)]) == 0:
                 for j in con[(i + 2) % len(con): (i - 1) % len(con)]:
-                    print(j['name'], j['priority'])
+                    print(j['id'],j['name'], j['priority'])
                     j['priority'] += 1
                 print(f"{dev['name']=}")
                 dev['priority'] += 1
@@ -189,4 +209,4 @@ def work_rotation( employees:list):
         print('-' * 5)
 
 if __name__ == '__main__':
-    work_rotation(employees=employees)
+    work_rotation(employees=EMPLOYEES)

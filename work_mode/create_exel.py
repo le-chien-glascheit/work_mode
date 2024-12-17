@@ -1,6 +1,6 @@
 import os
+
 import pandas as pd
-import os
 from openpyxl.styles import NamedStyle, Font, Alignment, PatternFill, Border, \
     Side
 from xlsxwriter import Workbook
@@ -84,5 +84,23 @@ def create_excel_from_dict_list(dict_list: list, output_filename: str, sheet_nam
 
 # create_empty_excel(columns=columns, filename='ex-1')
 
-data = pd.read_excel('C:/Users/LapinVMi/PycharmProjects/hakaton/hakaton/work_mode/excel_files/data.xlsx')
-print(data)
+
+data = pd.read_excel('C:/Users/LapinVMi/PycharmProjects/hakaton/hakaton/work_mode/excel_files/prazdnik.xlsx')
+
+
+month_name= [
+    'январь', 'февраль', 'март',
+    'апрель', 'май', 'июнь',
+    'июль', 'август', 'сентябрь',
+    'октябрь','ноябрь','декабрь',
+]
+df = pd.DataFrame(data)
+
+for i in range(12):
+    for j in range(len(df[i+1])):
+        if str(df[i+1][j]).strip() == 'NaT':
+            df[i+1].pop(j)
+
+for i in range(12):
+    print(month_name[i])
+    print(df[i+1])
