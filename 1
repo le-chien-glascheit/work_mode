@@ -1,3 +1,50 @@
+import random
+
+# Список всех сотрудников
+employees = [
+    {"name": "Alice", "role": "developer", "priority": 0},
+    {"name": "Bob", "role": "consultant", "priority": 0},
+    {"name": "Charlie", "role": "consultant", "priority": 0},
+    {"name": "David", "role": "developer", "priority": 0},
+    {"name": "Eve", "role": "consultant", "priority": 0},
+    {"name": "Frank", "role": "consultant", "priority": 0},
+    {"name": "Grace", "role": "developer", "priority": 0}
+]
+
+# Генерация работы в выходные дни
+weekends = []
+for _ in range(4):
+    weekend = {"developer": None, "consultants": []}
+    
+    # Выбираем разработчика с наименьшим приоритетом
+    developers = sorted(employees, key=lambda x: x["priority"])
+    for dev in developers:
+        if dev["role"] == "developer":
+            weekend["developer"] = dev["name"]
+            dev["priority"] += 1
+            break
+    
+    # Выбираем 2 консультанта с наименьшими приоритетами
+    consultants = sorted([emp for emp in employees if emp["role"] == "consultant"], key=lambda x: x["priority"])
+    for cons in consultants[:2]:
+        weekend["consultants"].append(cons["name"])
+        cons["priority"] += 1
+    
+    weekends.append(weekend)
+
+# Вывод результатов
+for i, weekend in enumerate(weekends):
+    print(f"Выходной день {i + 1}:")
+    print(f"Разработчик: {weekend['developer']}")
+    print("Консультанты:")
+    for consultant in weekend["consultants"]:
+        print(consultant)
+    print()
+
+
+
+
+
 
 import random
 
