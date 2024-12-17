@@ -1,5 +1,23 @@
 import calendar
 
+def count_weekend_days(year, month):
+    cal = calendar.monthcalendar(year, month)
+    count = 0
+    for week in cal:
+        for day in week:
+            if day != 0 and calendar.weekday(year, month, day) >= 5:
+                count += 1
+    return count
+
+year = 2022
+month = 3
+weekend_days = count_weekend_days(year, month)
+print(f"Выходных дней в месяце {month}/{year}: {weekend_days}")
+
+
+
+import calendar
+
 # Получаем текущий год и месяц
 year = 2022
 month = 12
