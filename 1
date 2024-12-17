@@ -1,3 +1,33 @@
+import pandas as pd
+from openpyxl import Workbook
+
+def create_excel_table(data_list, excel_file_name):
+    # Создаем новую книгу Excel
+    wb = Workbook()
+    sheet = wb.active
+
+    # Перебираем элементы списка и добавляем их в таблицу
+    for row_idx, row_data in enumerate(data_list, start=1):
+        for col_idx, cell_data in enumerate(row_data, start=1):
+            sheet.cell(row=row_idx, column=col_idx, value=cell_data)
+
+    # Сохраняем книгу Excel с указанным именем
+    wb.save(excel_file_name)
+
+# Пример использования функции
+data = [
+    ["Name", "Age", "City"],
+    ["Alice", 25, "New York"],
+    ["Bob", 30, "London"],
+    ["Charlie", 35, "Tokyo"]
+]
+
+create_excel_table(data, "example.xlsx")
+
+
+
+
+
 import calendar
 
 def count_weekend_days(year, month):
