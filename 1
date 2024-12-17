@@ -1,5 +1,53 @@
 import random
 
+class Employee:
+    def __init__(self, name, role, priority=0, voluntary=False):
+        self.name = name
+        self.role = role
+        self.priority = priority
+        self.voluntary = voluntary
+        
+    def __repr__(self):
+        return f"{self.name} - {self.role}"
+
+employees = [
+    Employee("Alice", "Developer"),
+    Employee("Bob", "Consultant"),
+    Employee("Charlie", "Consultant"),
+    Employee("David", "Developer"),
+    Employee("Eve", "Consultant"),
+]
+
+def generate_weekend_team(employees):
+    weekend_team = []
+    
+    developers = [employee for employee in employees if employee.role == "Developer"]
+    consultants = [employee for employee in employees if employee.role == "Consultant"]
+    
+    # Priority for employees who worked this month
+    for employee in employees:
+        if employee.priority > 0:
+            employee.priority -= 1
+    
+    # Choose developers for the weekend
+    weekend_team.append(min(developers, key=lambda x: x.priority))
+    
+    # Choose consultants for the weekend
+    weekend_team.extend(sorted(consultants, key=lambda x: x.priority)[:2])
+    
+    return weekend_team
+
+# Example usage
+for _ in range(4): # 4 weekends
+    weekend_team = generate_weekend_team(employees)
+    print(f"Weekend Team: {weekend_team}")
+
+
+
+
+
+import random
+
 # Создаем список всех сотрудников
 employees = {
     'разработчик': ['Иван', 'Петр', 'Сергей', 'Алексей', 'Дмитрий'],
