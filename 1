@@ -1,3 +1,19 @@
+import calendar
+
+# Получаем текущий год и месяц
+year = 2022
+month = 12
+
+# Получаем календарь для заданного месяца
+cal = calendar.monthcalendar(year, month)
+
+# Считаем количество выходных дней (суббота и воскресенье)
+weekend_days = sum(1 for week in cal for day in week if day > 0 and week[day-1] in [5, 6])
+
+print(f"Количество выходных дней в месяце: {weekend_days}")
+
+
+
 import random
 
 # Список всех сотрудников
