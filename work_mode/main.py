@@ -203,7 +203,7 @@ def work_rotation(employees: list):
         print('-' * 5)
 
     # print(weekend_team)
-    pd.DataFrame(weekend_team).to_excel('excel_files/ex-4.xlsx', index=False)
+    pd.DataFrame(weekend_team).to_excel('excel_files/ex-3.xlsx', index=False)
 
 
 if __name__ == '__main__':
