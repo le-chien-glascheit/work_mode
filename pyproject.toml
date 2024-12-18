@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "hakaton"
+version = "0.1.0"
+description = ""
+authors = ["LapinVM <LapinVMi@itsnn.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pandas = "^2.2.3"
+xlsxwriter = "^3.2.0"
+openpyxl = "^3.1.5"
+faker = "^33.1.0"
+ruff = "^0.8.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
